@@ -1,0 +1,200 @@
+                 %%%%%%%+++++++++++++++++++++%%%%%%%%%%%%%%
+                 %% implementation of Nedoic et al. method [2010] Stages as models of scene geometry %%%%%%%%%%%%%%%%%
+                 %%%%%%++++++++++++++++++++++++++%%%%%%%%%%%%%%%%
+                 %% Code implementation: Matlab 2019a. 
+ %% ext         
+function [scene1200] = Main_deepfeatures_grid (im)
+
+ 
+ scene1200=[];
+% im = imageDatastore(outputFolder,'IncludeSubfolders',true,'LabelSource','foldernames');
+
+                         
+             for i=1: numel(im.Files)
+                 a= im.Files(i);
+                    img= a{1};
+                       I= imread(img);             
+                         out=regexp(a,'/','split');
+                       c=out{1};
+                      category=c{8};
+                  
+                          img_name= c{9};
+
+                         [t1]= extract_feature(I,i);
+                            scene1200(i,:)= [str2num(category), t1];
+                            imageid_scene(i).category=[category];
+                             imageid_scene(i).name=[img_name];
+                   
+             end
+
+                         
+            
+          save('scene1200.mat','scene1200');               
+ 
+ scene1200(isnan(scene1200))=0;
+ save('scene1200.mat','scene1200');   
+ save('local_sceneimageid_1200','imageid_scene')
+end
+
+ function  [t_1]=extract_feature(img,i)
+                            
+                 
+                      F.id=i;          
+                     F.M =4;       %              o	f.M= 4 and f.N=4 ;  for patch size (MxN)
+                     F.N=4;       %               o	f.e=0.01   ; hog constant,
+                     F.Bin=9;       %             o	f.Bin= 9   ; hog histogram 
+                     F.maskdim=2 ;      %         o f.maskdim= 1 ; gradient 1D 
+                     F.nrm=2;       %             o	f.nrm=2           ; normalize type 2
+                     F.max_angle=360;      %      o	f.max_angle =360;  in degree , 
+                     F.e=0.01;
+                     F.thresh= 0.50;%% it is used for find the internal window number of ones to select the window or reject  
+                     F.threshold=1; %0.90
+                     F.issigned = 'unsigned'; %issigned = 'unsigned': 0-180;  or  signed :0-360
+                     %F.overlaphor=2; %%%enter the window overpalling in horizontal direction
+                     %F.overlapver=2; %% enter overlapping the window in vertical direction.
+                          
+                           [color_Sat_uv_F,Weibul_F,line_Perst_F,hsv_F,hog_F]= Feature_extraction_from_each_image(img, F,i);
+%                              [binary_f,E]= local_binary_pattern(img, F,1);
+                           
+                           t_1=[color_Sat_uv_F,Weibul_F,hsv_F,hog_F];
+                           %% This function return several features which we use in our research. However, Nedoic features was also calculated.
+                           %% user can concatenate them by follwoing Nedoic description. 
+%                           
+                           %%weibul
+%                            feature_path=('./classes/newdata/WIEBUL/');
+%                            if exist(feature_path, 'dir')
+%                            else
+%                                   mkdir(feature_path);
+%                             end
+%          %           feature_=strcat(feature_path,('weibul'));
+%               feature_path=strcat(feature_path,num2str(image_num) );
+%                            weibul=strcat(feature_path,'.mat');
+%                             save(weibul,'Weibul_F');
+%                            
+%                              %%color
+%                            feature_path=('./classes/newdata/COLOR/');
+%                            if exist(feature_path, 'dir')
+%                            else
+%                                   mkdir(feature_path);
+%                             end
+%          %           feature_=strcat(feature_path,('weibul'));
+%               feature_path=strcat(feature_path,num2str(image_num) );
+%                            colorf=strcat(feature_path,'.mat');
+%                             save(colorf,'color_Sat_uv_F');
+%                            
+%                           %% %%%%%%%%%%%%%%%%
+%                            
+%                              %%line_P
+%                            feature_path=('./classes/newdata/LINE/');
+%                            if exist(feature_path, 'dir')
+%                            else
+%                                   mkdir(feature_path);
+%                             end
+%          %           feature_=strcat(feature_path,('weibul'));
+%               feature_path=strcat(feature_path,num2str(image_num) );
+%                            line=strcat(feature_path,'.mat');
+%                             save(line,'line_Perst_F');
+%                             %%%%%%%%%%%%%%%%%%%%%%%
+%                            
+%                             %%hsv
+%                            feature_path=('./classes/newdata/HSV/');
+%                            if exist(feature_path, 'dir')
+%                            else
+%                                   mkdir(feature_path);
+%                             end
+%          %           feature_=strcat(feature_path,('weibul'));
+%               feature_path=strcat(feature_path,num2str(image_num) );
+%                            hsv=strcat(feature_path,'.mat');
+%                             save(hsv,'hsv_F');
+%                            %% hog
+%                               
+%                            feature_path=('./classes/newdata/HOG/');
+%                            if exist(feature_path, 'dir')
+%                            else
+%                                   mkdir(feature_path);
+%                             end
+%          %           feature_=strcat(feature_path,('weibul'));
+%               feature_path=strcat(feature_path,num2str(image_num) );
+%                            hog=strcat(feature_path,'.mat');
+%                             save(hog,'hog_F');
+%                            
+%                            
+%                            
+%                            
+%                            
+%                            
+%                               
+%                             %% add gist feature heres for seperate template 
+% %                               
+%                             param.imageSize = [256 256]; % it works also with non-square images
+%                             param.orientationsPerScale = [8 8 8 8];
+%                             param.numberBlocks = 4;
+%                             param.fc_prefilt = 4;
+%                             % Computing gist requires 1) prefilter image, 2) filter image and collect
+%                             % output energies
+%                             
+%  %% gist
+%                       [gist1, param] = LMgist(img, '', param);
+%                       gist1=[i,gist1];
+% %                       save(feature_path,'gist1');
+%                        feature_path=('./classes/newdata/GIST/');
+%                            if exist(feature_path, 'dir')
+%                            else
+%                                   mkdir(feature_path);
+%                             end
+%          %           feature_=strcat(feature_path,('weibul'));
+%               feature_path=strcat(feature_path,num2str(image_num) );
+%                            gst=strcat(feature_path,'.mat');
+%                             save(gst,'gist1');
+%                            
+% %                            % lbp
+% %                       [binary_f,E]= local_binary_pattern(img, F,1);
+% %                       binary_f=binary_f/norm(binary_f);
+% %                       binary_f=[i,binary_f'];
+% %                        feature_path=('./classes/newdata/LBP/');
+% %                            if exist(feature_path, 'dir')
+% %                            else
+% %                                   mkdir(feature_path);
+% %                             end
+% %          %           feature_=strcat(feature_path,('weibul'));
+% %                           feature_path=strcat(feature_path,num2str(image_num) );
+% %                            lbp=strcat(feature_path,'.mat');
+% %                             save(lbp,'binary_f');
+% % %                       
+% % %% entropy
+% % % 
+% % %                      [binary_f,E]= local_binary_pattern(img, F,1);
+% % % %                       binary_f=binary_f/norm(binary_f);
+% % %                       lbp=[i,binary_f];
+% % %                        feature_path=('./classes/newdata/LBP/');
+% % %                            if exist(feature_path, 'dir')
+% % %                            else
+% % %                                   mkdir(feature_path);
+% % %                             end
+% % %          %           feature_=strcat(feature_path,('weibul'));
+% % %                           feature_path=strcat(feature_path,num2str(image_num) );
+% % %                            colorf=strcat(feature_path,'.mat');
+% % %                             save(colorf,'lbp');
+% % %                             
+% % %                             
+% % %                       %%% binary pattern
+% % %                            feature_path=strcat(feature_myFolder, 'feature/lbp/' );
+% % %                             if exist(feature_path, 'dir')
+% % %                                 
+% % %                             else
+% % %                                 mkdir(feature_path);
+% % %                             end
+% % %                             
+% % %                             feature_path=strcat(feature_path,num2str(image_num) );
+% % %                                feature_path=strcat(feature_path,('lbp'));
+% % %                              feature_path=strcat(feature_path,'LBP2.mat');
+% % %                       
+% % %                        binary_f= local_binary_pattern(img, F,2);
+% % %                        binary_f=binary_f/norm(binary_f);
+% %                        binary_f=binary_f';
+%                        binary= [i,binary_f];
+%                       save(feature_path, 'binary');
+%                       
+                     
+  end             
+       
