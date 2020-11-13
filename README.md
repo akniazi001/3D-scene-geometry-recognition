@@ -11,7 +11,7 @@ For questions concerning the code please contact Altaf khan at <altaf.khan@emu.e
 
 The system is implemented in Matlab. 
 
-The code is tested on Linux (Ubuntu 10.10) and Window 7 with a Matlab version R2019b. 
+The code is tested on Linux (Ubuntu 18.x) and Window 7 with a Matlab version R2019b. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Two types of features are extracted in this model. 
 1) Deep CNN, 
