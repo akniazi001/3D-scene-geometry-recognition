@@ -7,7 +7,7 @@ Information
 3D scene geometry recognition system using low-level feature and multi-layer deep features
 This code is implementation of Image scene geometry recognition using low-level features fusion at multi lyaer deep CNN, (under review).
 
-For questions concerning the code please contact Wongun Choi at <altaf.khan@emu.edu.tr>.
+For questions concerning the code please contact Altaf khan at <altaf.khan@emu.edu.tr>.
 
 The system is implemented in Matlab. 
 
