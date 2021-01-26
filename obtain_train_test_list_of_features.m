@@ -14,9 +14,9 @@ local_feature=local_feature(:,2:end);
 % end
 
 
-allintoOne= [double(string(YTrainRGB)),  normalize(deepfeaturesRGB), normalize(local_feature)];  
+allintoOne= [double(string(YTrainRGB)),  normalize(deepfeaturesRGB), normalize(local_feature)];   %% normalize by z-score.
  
-% divide it into set    normalize(local_feature)
+% divide it into set    normalize(local_feature, 'norm') %% if you use L2-norm, please use normalize with "L2-norm". 
 % [m,~]=size(allintoOne);
 
 training = allintoOne(rnd_train,:);
