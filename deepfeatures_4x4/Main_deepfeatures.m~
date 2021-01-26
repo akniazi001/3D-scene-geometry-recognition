@@ -1,15 +1,12 @@
                  %%%%%%%+++++++++++++++++++++%%%%%%%%%%%%%%
                  %% implementation of Nedoic et al. method [2010] Stages as models of scene geometry %%%%%%%%%%%%%%%%%
                  %%%%%%++++++++++++++++++++++++++%%%%%%%%%%%%%%%%
-                 %% Code implementation: Matlab 2019a. 
+                 %% Code implementation: Matlab 2019a. % This part of the code may need to set  the path when you run the code
                       
 %     close all;                  
 %     clear; clc;
- 
-%         
 
- 
-  outputFolder= fullfile('/media/niazi/New Volume/phd/Databases/12scene_1200');
+  outputFolder= fullfile('/media/niazi/New Volume/phd/Databases/12scene_1200'); % add the path here, or call from main function. 
 
 im = imageDatastore(outputFolder,'IncludeSubfolders',true,'LabelSource','foldernames');
 
@@ -36,7 +33,7 @@ im = imageDatastore(outputFolder,'IncludeSubfolders',true,'LabelSource','foldern
           save('scene1200.mat','scene1200');               
 % %   end
  
- localMIT67(isnan(localMIT67))=0;
+% scene1200(isnan(scene1200))=0); you may use function to replace the none value here. most of the researchers are using average value to replace the nane value.
  save('scene1200.mat','scene1200');   
  save('local_sceneimageid_1200','imageid_scene')
  
