@@ -5,13 +5,11 @@ Information
 
 # 3D-scene-geometry-recognition
 3D scene geometry recognition system using low-level feature and multi-layer deep features
-This code is implementation of Image scene geometry recognition using low-level features fusion at multi lyaer deep CNN, (under review).
 
+This code is implementation of Image scene geometry recognition using low-level features fusion at multi lyaer deep CNN, (Accepted).
 For questions concerning the code please contact Altaf khan at <altaf.khan@emu.edu.tr>.
-
-The system is implemented in Matlab. 
-
-The code is tested on Linux (Ubuntu 18.x) and Window 7 with a Matlab version R2019b. 
+The system is implemented in Matlab.
+The code is tested on Linux (Ubuntu 18.x) and Window 7 with a Matlab version R2019b.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Two types of features are extracted in this model. 
 1) Deep CNN, 
@@ -30,7 +28,7 @@ These features are combined with local handcrafted features, at each stage. (5 d
 combined their outcome at 'calculate_scorefusion_svmresnet.m' if ResNEt model is used. 
 Else for ELM use 'calculate_scorefusion_ELM_resnet.m'
 obtain_train_test_list_of_features.m shows dividing the features for training and testing images. 
-pre_recall.m shows to calcualte precision, recall and Fscore values with confusion matrix. 
-%%%%%%%%%%%55
-for GoogeLeNet model, user needs to set the deep GoogLeNet and three stages features will be combined with handcrafted features. code is given in section 2. More detail will be given soon. 
+pre_recall.m shows to calcualte precision, recall and Fscore values with confusion matrix.
+%%%%%%%%%%%
+for GoogeLeNet model, user needs to set the deep GoogLeNet and three stages features will be combined with handcrafted features. code is given in section 2. More detail will be given soon.
 
